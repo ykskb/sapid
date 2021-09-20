@@ -1,20 +1,20 @@
 # Sapid
 
-GraphQL / REST APIs from DB Schema Data
+REST APIs from DB Schema Data
 
-Sapid creates instantly-operational GraphQL / REST routes from DB schema data.
+Sapid creates instantly-operational REST routes from DB schema data.
 
 #### Features:
 
-* Creates [ring](https://github.com/ring-clojure/ring) routes powered for different routers including [reitit](https://github.com/metosin/reitit), [bidi](https://github.com/juxt/bidi) or [Duct](https://github.com/duct-framework/duct)-[Ataraxy](https://github.com/weavejester/ataraxy).
+* Creates REST-powered [ring](https://github.com/ring-clojure/ring) routes for different routers including [reitit](https://github.com/metosin/reitit), [bidi](https://github.com/juxt/bidi) or [Duct](https://github.com/duct-framework/duct)-[Ataraxy](https://github.com/weavejester/ataraxy).
 
 * Supports nested resource structures for `one-to-one`, `one-to-many` and `many-to-many` relationships on top of `root` entities.
 
 * DB schema data can be retrieved from a running DB or specified with a config map selectively.
 
-* [Filters](#resource-filters), [sorting](#resource-sorting) and [pagination](#resource-pagination) come out of the box for both GraphQL and REST APIs.
+* [Filtering](#resource-filtering), [sorting](#resource-sorting) and [pagination](#resource-pagination) come out of the box.
 
-* [Swagger UI](https://swagger.io/tools/swagger-ui/) / GraphQL IDE (like GraphiQL) connectable.
+* [Swagger UI](https://swagger.io/tools/swagger-ui/) connectable.
 
 #### Notes:
 
@@ -130,19 +130,9 @@ Schema data is used to specify custom table schema to construct REST APIs withou
 | `:db-config-key`        | Integrant key for a database connection.                                     | `:duct.database/sql`          |
 | `:db`                   | Database connection object. If provided Sapid won't init the :db-config-key. | Created from `:db-config-key` |
 | `:db-ref`               | Integrant reference to a database connection for REST handler configs.       | Created from `:db-config-key` |
-| `:db-keys`              | Keys to get a connection from a database map.                                    | [:spec]                       |
+| `:db-keys`              | Keys to get a connection from a database map.                                | [:spec]                       |
 
-### Resource Filters
-
-#### GraphQL
-
-Format of `filter: {[column]: {operator: [operator], value: [value]}` is used in query arguments for filtering.
-
-##### Example:
-
-`{users (filter: {id: {operator: lt, value: 100} id: {operator: ne, value: 1}})}` (`users` where `id` is less than `100` `AND` `id` is not equal to `1`)
-
-#### REST API
+### Resource Filtering
 
 Format of `?column=[operator]:[value]` is used in a query string for filtering.
 
@@ -156,16 +146,6 @@ Format of `?column=[operator]:[value]` is used in a query string for filtering.
 
 ### Resource Sorting
 
-#### GraphQL
-
-Format of `sort: {[column]: [asc or desc]}` is used in query arguments for sorting.
-
-##### Example:
-
-`sort: {id: asc}` (sort by `id` column in ascending order)
-
-#### REST API
-
 Format of `?order-by=[column]:[asc or desc]` is used in a query string for sorting.
 
 ##### Example:
@@ -175,16 +155,6 @@ Format of `?order-by=[column]:[asc or desc]` is used in a query string for sorti
 > * Direction defaults to `desc` when omitted.
 
 ### Resource Pagination
-
-#### GraphQL
-
-Formats of `limit: [count]` and `offset: [count]` are used in query arguments for pagination. 
-
-##### Example
-
-`(filter: {id: {operator: gt value: 20}} limit: 25)` (20 items after/greater than `id`:`20`).
-
-#### REST API
 
 Formats of `limit=[count]` and `offset=[count]` are used in a query string for pagination.
 
